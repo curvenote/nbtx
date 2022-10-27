@@ -1,5 +1,7 @@
 # @curvenote/nbtx
 
+Note: This repository has been included in the [monorepo here](https://github.com/curvenote/curvenote) and is accessbile under the `nbtx` package on npm.
+
 Transform and manipulate Jupyter notebook json files (ipynb), converting these to and from more compact data structures used by Curvenote.
 
 Specific functionality included is:
