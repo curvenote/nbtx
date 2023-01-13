@@ -1,27 +1,41 @@
 import { IOutput } from '@jupyterlab/nbformat';
-import { MinifiedOutput } from './types';
+import { MinifiedContentCache, MinifiedOutput } from './types';
 
-export function convertToIOutputs(minified: MinifiedOutput[]): IOutput[] {
+export function convertToIOutputs(
+  minified: MinifiedOutput[],
+  outputCache: MinifiedContentCache,
+): IOutput[] {
   return minified.map((m: MinifiedOutput) => {
     switch (m.output_type) {
       case 'stream': {
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const { path, ...rest } = m;
+        const { hash, ...rest } = m;
+        if (hash && outputCache[hash]) {
+          return { ...rest, text: outputCache[hash][0] };
+        }
         return rest;
       }
       case 'error': {
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const { path, traceback, ...rest } = m;
+        const { hash, traceback, ...rest } = m;
+        if (hash && outputCache[hash]) {
+          return { ...rest, traceback: [outputCache[hash][0]] };
+        }
         return { ...rest, traceback: [traceback] };
       }
       default: {
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         return {
           ...m,
           data: Object.entries(m.data).reduce((acc, [mimetype, payload]) => {
             let { content } = payload;
+            const { hash } = payload;
+            if (hash && outputCache[hash]) {
+              [content] = outputCache[hash];
+            }
 
-            if (mimetype !== 'application/javascript' && mimetype.startsWith('application/')) {
+            if (
+              content &&
+              mimetype !== 'application/javascript' &&
+              mimetype.startsWith('application/')
+            ) {
               try {
                 content = JSON.parse(content);
               } catch (e) {
@@ -29,7 +43,11 @@ export function convertToIOutputs(minified: MinifiedOutput[]): IOutput[] {
                 console.debug(`${mimetype} is not json parsable, leaving as is`);
               }
             }
+            if (content && !mimetype.startsWith('image/svg') && mimetype.startsWith('image/')) {
+              content = `data:${mimetype};base64,${content}`;
+            }
 
+            if (!content) return acc;
             return {
               ...acc,
               [mimetype]: content,

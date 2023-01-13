@@ -1,3 +1,4 @@
+import { createHash } from 'crypto';
 import {
   MinifiedErrorOutput,
   MinifiedMimeBundle,
@@ -17,23 +18,37 @@ export function ensureSafePath(path: string): string {
   return path.replace('/', '-');
 }
 
-export function walkPaths(
+export function walkOutputs(
   outputs: MinifiedOutput[],
-  func: (p: string, obj: MinifiedStreamOutput | MinifiedErrorOutput | MinifiedMimePayload) => void,
+  func: (
+    hash: string,
+    obj: MinifiedStreamOutput | MinifiedErrorOutput | MinifiedMimePayload,
+  ) => void,
 ) {
   outputs.forEach((output: MinifiedOutput) => {
-    if ('path' in output && output.path) {
+    if ('hash' in output && output.hash) {
       // eslint-disable-next-line no-param-reassign
-      func(output.path, output);
+      func(output.hash, output);
     } else if ('data' in output && output.data) {
       const data = output.data as MinifiedMimeBundle;
       const mimetypes = Object.keys(data);
       mimetypes.forEach((mimetype) => {
         const bundle = data[mimetype];
-        if ('path' in bundle && bundle.path) {
-          func(bundle.path, bundle);
+        if ('hash' in bundle && bundle.hash) {
+          func(bundle.hash, bundle);
         }
       });
     }
   });
+}
+
+export function computeHash(content: string) {
+  return createHash('md5').update(content).digest('hex');
+}
+
+export function ensureString(maybeString: string[] | string | undefined, joinWith = ''): string {
+  if (!maybeString) return '';
+  if (typeof maybeString === 'string') return maybeString;
+  if (maybeString.join) return maybeString.join(joinWith);
+  return maybeString as unknown as string;
 }

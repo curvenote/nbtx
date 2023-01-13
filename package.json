@@ -1,5 +1,5 @@
 {
-  "name": "@curvenote/nbtx",
+  "name": "nbtx",
   "license": "MIT",
   "version": "0.1.11",
   "description": "Curvenote Notebook Tranlators",
@@ -39,16 +39,10 @@
   },
   "dependencies": {
     "@jupyterlab/nbformat": "^3.3.2",
-    "@typescript-eslint/eslint-plugin": "^5.16.0",
-    "uuid": "^8.3.2"
-  },
-  "peerDependencies": {
-    "@curvenote/blocks": "^1.3.3"
+    "@typescript-eslint/eslint-plugin": "^5.16.0"
   },
   "devDependencies": {
-    "@curvenote/blocks": "^1.3.4",
     "@types/jest": "^26.0.23",
-    "@types/uuid": "^8.3.4",
     "eslint": "7.27.0",
     "eslint-config-airbnb": "^18.2.1",
     "eslint-config-airbnb-base": "^14.2.1",

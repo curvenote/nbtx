@@ -1,7 +1,12 @@
+/* eslint-disable no-param-reassign */
 import { IStream, IError } from '@jupyterlab/nbformat';
-import { ensureString } from '@curvenote/blocks';
-import { IFileObjectFactoryFn } from '../files';
-import { MinifiedErrorOutput, MinifiedStreamOutput, MinifyOptions } from './types';
+import {
+  MinifiedContentCache,
+  MinifiedErrorOutput,
+  MinifiedStreamOutput,
+  MinifyOptions,
+} from './types';
+import { computeHash, ensureString } from './utils';
 
 function ensureStringEnsureNewlines(maybeString: string | string[] | undefined) {
   return typeof maybeString === 'string'
@@ -10,39 +15,42 @@ function ensureStringEnsureNewlines(maybeString: string | string[] | undefined) 
 }
 
 async function minifyStringOutput(
-  fileFactory: IFileObjectFactoryFn,
   output: IStream | IError,
   fieldName: string,
+  outputCache: MinifiedContentCache,
   opts: { ensureNewlines?: boolean } & MinifyOptions,
 ): Promise<MinifiedStreamOutput | MinifiedErrorOutput> {
-  if (!output[fieldName])
+  if (!output[fieldName]) {
     throw Error(`Bad Field name ${fieldName} for output type ${output.output_type}`);
+  }
   const text = opts.ensureNewlines
     ? ensureStringEnsureNewlines(output[fieldName] as string | string[] | undefined)
     : ensureString(output[fieldName] as string | string[] | undefined);
-  if (text && text.length <= opts.maxCharacters) return { ...(output as any), [fieldName]: text };
-  const file = fileFactory(`${opts.basepath}-text_plain`);
-  await file.writeString(text, 'text/plain');
+  if (text && text.length <= opts.maxCharacters) {
+    return { ...(output as any), [fieldName]: text };
+  }
+  const hash = computeHash(text);
+  outputCache[hash] = [text, { contentType: 'text/plain', encoding: 'utf8' }];
   return {
     ...(output as any),
-    path: file.id,
+    hash,
     [fieldName]: `${text.slice(0, opts.truncateTo - 3)}...`,
   };
 }
 
 export const minifyStreamOutput = async (
-  fileFactory: IFileObjectFactoryFn,
   output: IStream,
+  outputCache: MinifiedContentCache,
   opts: MinifyOptions,
 ): Promise<MinifiedStreamOutput> =>
-  minifyStringOutput(fileFactory, output, 'text', opts) as Promise<MinifiedStreamOutput>;
+  minifyStringOutput(output, 'text', outputCache, opts) as Promise<MinifiedStreamOutput>;
 
 export const minifyErrorOutput = async (
-  fileFactory: IFileObjectFactoryFn,
   output: IError,
+  outputCache: MinifiedContentCache,
   opts: MinifyOptions,
 ): Promise<MinifiedErrorOutput> =>
-  minifyStringOutput(fileFactory, output, 'traceback', {
+  minifyStringOutput(output, 'traceback', outputCache, {
     ensureNewlines: true,
     ...opts,
   }) as Promise<MinifiedErrorOutput>;

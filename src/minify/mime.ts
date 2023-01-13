@@ -1,57 +1,60 @@
+/* eslint-disable no-param-reassign */
 import { IDisplayData, IExecuteResult, MultilineString } from '@jupyterlab/nbformat';
-import { ensureString } from '@curvenote/blocks';
-import { IFileObjectFactoryFn } from '../files';
-import { MinifiedMimeBundle, MinifyOptions } from './types';
-import { ensureSafePath } from './utils';
+import { MinifiedContentCache, MinifiedMimeBundle, MinifyOptions } from './types';
+import { computeHash, ensureString } from './utils';
 
-async function minifyContent(
-  fileFactory: IFileObjectFactoryFn,
+function minifyContent(
   content: string,
   contentType: string,
   isBase64Image: boolean,
+  outputCache: MinifiedContentCache,
   opts: MinifyOptions,
 ) {
-  if (!isBase64Image && content && content.length <= opts.maxCharacters)
+  if (!isBase64Image && content && content.length <= opts.maxCharacters) {
     return { content, content_type: contentType };
-  const file = fileFactory(`${opts.basepath}-${ensureSafePath(contentType)}`);
+  }
+  let hash: string;
   if (isBase64Image) {
-    await file.writeBase64(content, contentType);
+    const [data] = content.split(';base64,').reverse(); // reverse as sometimes there is no header
+    hash = computeHash(data);
+    outputCache[hash] = [data, { contentType, encoding: 'base64' }];
   } else {
-    await file.writeString(content, contentType);
+    hash = computeHash(content);
+    outputCache[hash] = [content, { contentType, encoding: 'utf8' }];
   }
   return {
-    content: file.id,
     content_type: contentType,
-    path: file.id,
+    hash,
   };
 }
 
 export async function minifyMimeOutput(
-  fileFactory: IFileObjectFactoryFn,
   output: IDisplayData | IExecuteResult,
+  outputCache: MinifiedContentCache,
   opts: MinifyOptions,
 ) {
   const items = await Promise.all(
-    Object.entries(output.data).map(async ([mimetype, content]) => {
+    Object.entries(output.data).map(async ([mimetype, mimeContent]) => {
       let isBase64Image = false;
-
       let stringContent = '';
       if (
         mimetype !== 'application/javascript' &&
         (mimetype === 'application/json' ||
-          (mimetype.startsWith('application/') && typeof content === 'object'))
+          (mimetype.startsWith('application/') && typeof mimeContent === 'object'))
       ) {
-        stringContent = JSON.stringify(content);
+        stringContent = JSON.stringify(mimeContent);
       } else {
-        stringContent = ensureString(content as MultilineString | string);
+        stringContent = ensureString(mimeContent as MultilineString | string);
       }
 
-      if (!mimetype.startsWith('image/svg') && mimetype.startsWith('image/')) isBase64Image = true;
+      if (!mimetype.startsWith('image/svg') && mimetype.startsWith('image/')) {
+        isBase64Image = true;
+      }
 
       // NOTE we insist on creating stringified content as this can / will end up in a
       // database with limited support for nested objects. Stringifcaiton here means
       // an inverse operation is needed on convertToIOutputs to get back to the original
-      return minifyContent(fileFactory, stringContent, mimetype, isBase64Image, opts);
+      return minifyContent(stringContent, mimetype, isBase64Image, outputCache, opts);
     }),
   );
 
