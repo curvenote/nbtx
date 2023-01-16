@@ -5,8 +5,8 @@ export interface MinifyOptions {
   truncateTo: number;
 }
 
-export type MinifiedStreamOutput = { hash?: string } & IStream;
-export type MinifiedErrorOutput = { hash?: string; traceback: string } & IError;
+export type MinifiedStreamOutput = { hash?: string; path?: string } & IStream;
+export type MinifiedErrorOutput = { hash?: string; path?: string; traceback: string } & IError;
 
 export type MimeOutputType = 'execute_result' | 'display_data' | 'update_display_data';
 
@@ -14,6 +14,7 @@ export interface MinifiedMimePayload {
   content?: string;
   content_type: string;
   hash?: string;
+  path?: string;
 }
 
 export interface MinifiedMimeBundle {
