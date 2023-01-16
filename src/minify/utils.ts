@@ -20,24 +20,15 @@ export function ensureSafePath(path: string): string {
 
 export function walkOutputs(
   outputs: MinifiedOutput[],
-  func: (
-    hash: string,
-    obj: MinifiedStreamOutput | MinifiedErrorOutput | MinifiedMimePayload,
-  ) => void,
+  func: (obj: MinifiedStreamOutput | MinifiedErrorOutput | MinifiedMimePayload) => void,
 ) {
   outputs.forEach((output: MinifiedOutput) => {
-    if ('hash' in output && output.hash) {
-      // eslint-disable-next-line no-param-reassign
-      func(output.hash, output);
-    } else if ('data' in output && output.data) {
-      const data = output.data as MinifiedMimeBundle;
-      const mimetypes = Object.keys(data);
-      mimetypes.forEach((mimetype) => {
-        const bundle = data[mimetype];
-        if ('hash' in bundle && bundle.hash) {
-          func(bundle.hash, bundle);
-        }
+    if ('data' in output && output.data) {
+      Object.entries(output.data as MinifiedMimeBundle).forEach(([, bundle]) => {
+        func(bundle);
       });
+    } else {
+      func(output as MinifiedStreamOutput | MinifiedErrorOutput);
     }
   });
 }
