@@ -1,7 +1,7 @@
 {
   "name": "nbtx",
   "license": "MIT",
-  "version": "0.1.11",
+  "version": "0.2.0",
   "description": "Curvenote Notebook Tranlators",
   "author": "Steve Purves <steve@curvenote.com>",
   "main": "dist/index.js",
