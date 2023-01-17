@@ -43,13 +43,18 @@ export function convertToIOutputs(
                 console.debug(`${mimetype} is not json parsable, leaving as is`);
               }
             }
+
+            // Jupyter outputs are just the base64 encoded data without the the "header" of "data:image/png;base64,"
+            // If the header is included, this strips it out.
             if (
               content &&
-              !mimetype.startsWith('image/svg') &&
               mimetype.startsWith('image/') &&
-              !((content as string).startsWith('data:') && (content as string).includes(';base64,'))
+              !mimetype.startsWith('image/svg') &&
+              (content as string).startsWith('data:') &&
+              (content as string).includes(';base64,')
             ) {
-              content = `data:${mimetype};base64,${content}`;
+              const [data] = content.split(';base64,').reverse(); // reverse is just to be bug-free!
+              content = data;
             }
 
             if (!content) return acc;
