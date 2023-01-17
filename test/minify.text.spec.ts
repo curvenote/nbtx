@@ -1,11 +1,11 @@
 import { minifyStreamOutput, minifyErrorOutput } from '../src/minify/text';
-import { MinifiedContentCache } from '../src/minify/types';
-import { computeHash } from '../src/minify/utils';
-import { makeNativeErrorOutput, makeNativeStreamOutput } from './helpers';
+import type { MinifiedContentCache } from '../src/minify/types';
+import { computeHash, makeNativeErrorOutput, makeNativeStreamOutput } from './helpers';
 
 const default_opts = {
   maxCharacters: 20,
   truncateTo: 10,
+  computeHash,
 };
 
 describe('minify.text', () => {

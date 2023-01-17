@@ -1,4 +1,3 @@
-import { createHash } from 'crypto';
 import type {
   MinifiedErrorOutput,
   MinifiedMimeBundle,
@@ -9,6 +8,14 @@ import type {
 
 export const MAX_CHARS = 25000;
 export const TRUNCATED_CHARS_COUNT = 64;
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export function DEFAULT_HASH_WARNING(content: string): string {
+  console.warn(
+    'nbtx is not using a hashing library to create the hash.\nThe IDs generated are random, please provide a createHash function, for example from "crypto".\nSee nbtx README for more information.',
+  );
+  return `not-a-hash-${Math.random().toString(36).slice(2)}${Math.random().toString(36).slice(2)}`;
+}
 
 export function isNotNull<T>(arg: T | null): arg is T {
   return arg != null;
@@ -36,10 +43,6 @@ export function walkOutputs(
       func(output as MinifiedStreamOutput | MinifiedErrorOutput);
     }
   });
-}
-
-export function computeHash(content: string) {
-  return createHash('md5').update(content).digest('hex');
 }
 
 export function ensureString(maybeString: string[] | string | undefined, joinWith = ''): string {

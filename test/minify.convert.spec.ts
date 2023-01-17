@@ -1,12 +1,18 @@
 import { convertToIOutputs, minifyCellOutput } from '../src/minify';
 import { minifyMimeOutput } from '../src/minify/mime';
 import { minifyErrorOutput, minifyStreamOutput } from '../src/minify/text';
-import { MinifiedContentCache } from '../src/minify/types';
-import { makeNativeErrorOutput, makeNativeMimeOutput, makeNativeStreamOutput } from './helpers';
+import type { MinifiedContentCache } from '../src/minify/types';
+import {
+  makeNativeErrorOutput,
+  makeNativeMimeOutput,
+  makeNativeStreamOutput,
+  computeHash,
+} from './helpers';
 
 const default_opts = {
   maxCharacters: 20,
   truncateTo: 10,
+  computeHash,
 };
 
 describe('minify.convert', () => {

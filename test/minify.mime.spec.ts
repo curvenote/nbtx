@@ -1,11 +1,11 @@
 import { minifyMimeOutput } from '../src/minify/mime';
-import { MinifiedContentCache } from '../src/minify/types';
-import { computeHash } from '../src/minify/utils';
-import { makeNativeMimeOutput } from './helpers';
+import type { MinifiedContentCache } from '../src/minify/types';
+import { computeHash, makeNativeMimeOutput } from './helpers';
 
 const default_opts = {
   maxCharacters: 20,
   truncateTo: 10,
+  computeHash,
 };
 
 describe('minify.mime', () => {
@@ -74,5 +74,7 @@ describe('minify.mime', () => {
       ]);
     },
   );
-  test('minifyMimeOutput - multiple %s', () => {});
+  test('minifyMimeOutput - multiple %s', () => {
+    //pass
+  });
 });

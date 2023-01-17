@@ -38,10 +38,13 @@ The following example loads a notebook, then iterates through each cell and, if 
 
 ```typescript
 import fs from 'fs';
-import { minifyCellOutput, MinifiedContentCache } from 'nbtx';
+import type { MinifiedContentCache, MinifyOptions } from 'nbtx';
+import { minifyCellOutput } from 'nbtx';
 
 const notebook = JSON.parse(fs.readFileSync('my-notebook.ipynb'));
 const outputCache: MinifiedContentCache = {};
+// Options for minification, see note on hashing below
+const opts: Partial<MinifyOptions> = { computeHash };
 
 notebook.cells.forEach((cell) => {
   if (!cell.outputs?.length) return;
@@ -81,6 +84,21 @@ notebook.cells.forEach((cell) => {
 > **Note**
 > Minifying and restoring notebook outputs may change the structure of output text from a string list to a single,
 > new-line-delimited string. Both of these formats are acceptable in the notebook types defined by `nbformat`.
+
+## Hashing function
+
+To be able to have no dependencies and also run easily in the browser, `nbtx` does not bundle a hashing library.
+To create the `computeHash` function, choose an algorithm, for example, `md5` and digest the content. If you are in the browser, consider using `crypto-js` or some other random function.
+
+```typescript
+import { createHash } from 'crypto';
+
+function computeHash(content: string): string {
+  return createHash('md5').update(content).digest('hex');
+}
+```
+
+By default `nbtx` will create a random string for the hash and raise a warning.
 
 ## Data transformation example
 
