@@ -61,6 +61,6 @@ notebook.cells.forEach((cell) => {
 });
 ```
 
-```note
-Minifying and restoring notebook outputs may change the structure of output text from a string list to a single, new-line-delimited string. Both of these formats are acceptable in the notebook types defined by `nbformat`
+```{note}
+Note: Minifying and restoring notebook outputs may change the structure of output text from a string list to a single, new-line-delimited string. Both of these formats are acceptable in the notebook types defined by `nbformat`
 ```
