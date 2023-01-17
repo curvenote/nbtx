@@ -12,7 +12,7 @@ export const TRUNCATED_CHARS_COUNT = 64;
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function DEFAULT_HASH_WARNING(content: string): string {
   console.warn(
-    'nbtx is not using a hashing library to create the hash.\nThe IDs generated are random, please provide a createHash function, for example from "crypto".\nSee nbtx README for more information.',
+    'nbtx is not using a hashing library to create the hash.\nThe IDs generated are random, please provide a `computeHash` function, for example using "crypto".\nSee nbtx README for more information.',
   );
   return `not-a-hash-${Math.random().toString(36).slice(2)}${Math.random().toString(36).slice(2)}`;
 }
