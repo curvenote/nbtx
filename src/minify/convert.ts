@@ -43,7 +43,12 @@ export function convertToIOutputs(
                 console.debug(`${mimetype} is not json parsable, leaving as is`);
               }
             }
-            if (content && !mimetype.startsWith('image/svg') && mimetype.startsWith('image/')) {
+            if (
+              content &&
+              !mimetype.startsWith('image/svg') &&
+              mimetype.startsWith('image/') &&
+              !((content as string).startsWith('data:') && (content as string).includes(';base64,'))
+            ) {
               content = `data:${mimetype};base64,${content}`;
             }
 
