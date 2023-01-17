@@ -1,6 +1,12 @@
 import { IOutput } from '@jupyterlab/nbformat';
 import { MinifiedContentCache, MinifiedOutput } from './types';
 
+/**
+ * Given a list of minified objects, restore to original nbformat IOutput objectss
+ *
+ * @param minified: List of minified output objects, including stream, error, execute_result, display_data, and update_display_data types.
+ * @param outputCache: MinifiedContentCache object with large output content
+ */
 export function convertToIOutputs(
   minified: MinifiedOutput[],
   outputCache: MinifiedContentCache,
