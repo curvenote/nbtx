@@ -1,6 +1,6 @@
 /* eslint-disable no-param-reassign */
-import { IStream, IError } from '@jupyterlab/nbformat';
-import {
+import type { IStream, IError } from '@jupyterlab/nbformat';
+import type {
   MinifiedContentCache,
   MinifiedErrorOutput,
   MinifiedStreamOutput,
