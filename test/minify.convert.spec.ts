@@ -21,16 +21,9 @@ describe('minify.convert', () => {
       'execute_result',
       '<div><article><h1>Hello World</h1><p>Welcome to the future</p></article></div>',
     ],
-    [
-      'image/gif',
-      'execute_result',
-      'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7',
-    ],
-    [
-      'image/png',
-      'execute_result',
-      'data:image/png;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7',
-    ],
+    // Note that the results for base64 encoded data does not include the "header" of "data:image/png;base64,"
+    ['image/gif', 'execute_result', 'R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'],
+    ['image/png', 'execute_result', 'R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'],
     ['application/json', 'execute_result', { some: { json: 'object' } }],
   ])(
     'minifyMimeOutput - single %s',
