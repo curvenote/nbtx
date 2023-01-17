@@ -1,19 +1,19 @@
 import { IStream, IError, ExecutionCount, OutputMetadata } from '@jupyterlab/nbformat';
 
 export interface MinifyOptions {
-  basepath: string;
   maxCharacters: number;
   truncateTo: number;
 }
 
-export type MinifiedStreamOutput = { path?: string } & IStream;
-export type MinifiedErrorOutput = { path?: string; traceback: string } & IError;
+export type MinifiedStreamOutput = { hash?: string; path?: string } & IStream;
+export type MinifiedErrorOutput = { hash?: string; path?: string; traceback: string } & IError;
 
 export type MimeOutputType = 'execute_result' | 'display_data' | 'update_display_data';
 
 export interface MinifiedMimePayload {
+  content?: string;
   content_type: string;
-  content: string;
+  hash?: string;
   path?: string;
 }
 
@@ -29,3 +29,7 @@ export interface MinifiedMimeOutput {
 }
 
 export type MinifiedOutput = MinifiedStreamOutput | MinifiedErrorOutput | MinifiedMimeOutput;
+
+export type MinifiedContent = [string, { contentType: string; encoding: string }];
+
+export type MinifiedContentCache = Record<string, MinifiedContent>;

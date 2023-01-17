@@ -40,6 +40,7 @@ module.exports = {
     'no-multiple-empty-lines': 'off',
     'arrow-body-style': 'off',
     'class-methods-use-this': 'off',
+    'no-param-reassign': 'off',
   },
   settings: {
     react: {

@@ -1,25 +1,4 @@
-import {
-  CellOutput,
-  KnownCellOutputMimeTypes,
-  CellOutputType,
-  JsonObject,
-} from '@curvenote/blocks';
 import { IDisplayData, IError, IExecuteResult, IStream } from '@jupyterlab/nbformat';
-import { IFileObject, Metadata } from '../src/files';
-
-export function makeCellOutput(
-  output_type?: CellOutputType,
-  mimetype?: KnownCellOutputMimeTypes,
-  content?: JsonObject | string[] | string,
-) {
-  return {
-    output_type: output_type ?? CellOutputType.DisplayData,
-    data: {
-      [mimetype ?? KnownCellOutputMimeTypes.TextPlain]: content ?? 'hello world',
-    },
-    metadata: {},
-  } as CellOutput;
-}
 
 export function makeNativeStreamOutput(text?: string | string[]) {
   return {
@@ -48,53 +27,4 @@ export function makeNativeMimeOutput(output_type?: string, mimetype?: string, co
     },
     metadata: { meta: 'data' },
   } as IExecuteResult | IDisplayData;
-}
-
-const fileBackend: {
-  lastWrite: 'writeString' | 'writeBase64' | null;
-  lastContentType: string | null;
-} = {
-  lastWrite: null,
-  lastContentType: null,
-};
-
-export type IFileObjectFactoryFn = (path: string) => IFileObject;
-
-export const getLastFileWrite = () => fileBackend.lastWrite;
-export const getLastContentType = () => fileBackend.lastContentType;
-
-export class TestFileObject implements IFileObject {
-  path: string;
-
-  constructor(path: string) {
-    this.path = path;
-  }
-
-  get id() {
-    return this.path;
-  }
-
-  writeString(data: string, contentType: string): Promise<void> {
-    fileBackend.lastWrite = 'writeString';
-    fileBackend.lastContentType = contentType;
-    return Promise.resolve();
-  }
-
-  writeBase64(data: string, contentType: string): Promise<void> {
-    fileBackend.lastWrite = 'writeBase64';
-    fileBackend.lastContentType = contentType;
-    return Promise.resolve();
-  }
-
-  setContentType(contentType: string): Promise<Metadata> {
-    return Promise.resolve({} as Metadata);
-  }
-
-  async url() {
-    return 'stub-file-signature';
-  }
-
-  async exists() {
-    return true;
-  }
 }

@@ -1,28 +1,21 @@
 import { minifyCellOutput } from '../src/minify';
-import {
-  makeNativeErrorOutput,
-  makeNativeMimeOutput,
-  makeNativeStreamOutput,
-  TestFileObject,
-} from './helpers';
+import { makeNativeErrorOutput, makeNativeMimeOutput, makeNativeStreamOutput } from './helpers';
 
 describe('minify', () => {
   test.each([[[{} as any]], [[{} as any, {} as any]]])('unrecognized', async (outputs: any[]) => {
-    expect(await minifyCellOutput((p: string) => new TestFileObject(p), outputs, {})).toEqual([]);
+    expect(await minifyCellOutput(outputs, {}, {})).toEqual([]);
   });
   test.each([
     [[makeNativeStreamOutput('hello')]],
     [[makeNativeStreamOutput('hello'), makeNativeStreamOutput('hello')]],
   ])('outputs', async (outputs: any[]) => {
-    expect(await minifyCellOutput((p: string) => new TestFileObject(p), outputs, {})).toHaveLength(
-      outputs.length,
-    );
+    expect(await minifyCellOutput(outputs, {}, {})).toHaveLength(outputs.length);
   });
 
   test('outputs', async () => {
     const outputs = await minifyCellOutput(
-      (p: string) => new TestFileObject(p),
       [makeNativeStreamOutput('hello'), makeNativeErrorOutput(['oh no']), makeNativeMimeOutput()],
+      {},
       {},
     );
 
