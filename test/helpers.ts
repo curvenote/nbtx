@@ -1,4 +1,4 @@
-import { IDisplayData, IError, IExecuteResult, IStream } from '@jupyterlab/nbformat';
+import type { IDisplayData, IError, IExecuteResult, IStream } from '@jupyterlab/nbformat';
 
 export function makeNativeStreamOutput(text?: string | string[]) {
   return {

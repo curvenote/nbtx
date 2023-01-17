@@ -1,5 +1,5 @@
-import { IOutput } from '@jupyterlab/nbformat';
-import { MinifiedContentCache, MinifiedOutput } from './types';
+import type { IOutput } from '@jupyterlab/nbformat';
+import type { MinifiedContentCache, MinifiedOutput } from './types';
 
 /**
  * Given a list of minified objects, restore to original nbformat IOutput objectss
