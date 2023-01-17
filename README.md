@@ -16,7 +16,7 @@ Transform Jupyter notebook JSON files (`*.ipynb`) to and from more compact data 
 
 The scope of this library is currently isolated to "minifying" large notebook cell outputs, including `stream`, `error`, and mimetype outputs (`update_display_data`, `display_data`, `execute_result`). Large outputs are extracted from the notebook JSON, moved to a cache data structure, and referenced in the notebook by their `hash` and `content_type`. This library also provides a function to restore notebook outputs to their original state, given minifed outputs and the cached output content.
 
-This library uses existing notebook types defined in [nbformat](https://github.com/jupyterlab/jupyterlab/tree/master/packages/nbformat) (see [docs](https://nbformat.readthedocs.io)); the only new types defined in `nbtx` are for "minified" outputs. However, there are no functions for handling entire notebooks; outputs must be isolated prior to invoking `nbtx` functions. This choice allows the library to be used in non-notebook contexts (e.g. MyST Markdown), which include output mime-bundles, but not necessarily conform to the full notebook specification.
+This library uses existing notebook types defined in [nbformat](https://github.com/jupyterlab/jupyterlab/tree/master/packages/nbformat) (see [docs](https://nbformat.readthedocs.io)); the only new types defined in `nbtx` are for "minified" outputs. However, there are no functions for handling entire notebooks; outputs must be isolated prior to invoking `nbtx` functions. This choice allows the library to be used in non-notebook contexts (e.g. [MyST Markdown](https://myst.tools)), which include output mime-bundles, but does not conform to the full notebook specification.
 
 ## Goals
 
