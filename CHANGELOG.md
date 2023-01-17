@@ -1,5 +1,11 @@
 # nbtx
 
+## 0.2.3
+
+### Patch Changes
+
+- 7c8bf87: Remove the dependence on `crypto` node library
+
 ## 0.2.2
 
 ### Patch Changes
