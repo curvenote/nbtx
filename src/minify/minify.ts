@@ -2,7 +2,7 @@ import type { IOutput, IStream, IError, IDisplayData, IExecuteResult } from '@ju
 import { minifyMimeOutput } from './mime';
 import { minifyErrorOutput, minifyStreamOutput } from './text';
 import type { MinifiedContentCache, MinifiedOutput, MinifyOptions } from './types';
-import { isNotNull, MAX_CHARS, TRUNCATED_CHARS_COUNT } from './utils';
+import { DEFAULT_HASH_WARNING, isNotNull, MAX_CHARS, TRUNCATED_CHARS_COUNT } from './utils';
 
 async function minifyOneOutputItem(
   output: IOutput,
@@ -41,6 +41,7 @@ export async function minifyCellOutput(
   const options = {
     maxCharacters: opts.maxCharacters ?? MAX_CHARS,
     truncateTo: opts.truncateTo ?? TRUNCATED_CHARS_COUNT,
+    computeHash: opts.computeHash ?? DEFAULT_HASH_WARNING,
   };
   const minifiedOrNull = await Promise.all(
     outputs.map(async (output) => minifyOneOutputItem(output, outputCache, options)),

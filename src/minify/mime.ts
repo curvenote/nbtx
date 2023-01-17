@@ -1,7 +1,7 @@
 /* eslint-disable no-param-reassign */
 import type { IDisplayData, IExecuteResult, MultilineString } from '@jupyterlab/nbformat';
 import type { MinifiedContentCache, MinifiedMimeBundle, MinifyOptions } from './types';
-import { computeHash, ensureString } from './utils';
+import { ensureString } from './utils';
 
 function minifyContent(
   content: string,
@@ -16,10 +16,10 @@ function minifyContent(
   let hash: string;
   if (isBase64Image) {
     const [data] = content.split(';base64,').reverse(); // reverse as sometimes there is no header
-    hash = computeHash(data);
+    hash = opts.computeHash(data);
     outputCache[hash] = [data, { contentType, encoding: 'base64' }];
   } else {
-    hash = computeHash(content);
+    hash = opts.computeHash(content);
     outputCache[hash] = [content, { contentType, encoding: 'utf8' }];
   }
   return {

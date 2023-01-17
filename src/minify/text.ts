@@ -6,7 +6,7 @@ import type {
   MinifiedStreamOutput,
   MinifyOptions,
 } from './types';
-import { computeHash, ensureString } from './utils';
+import { ensureString } from './utils';
 
 function ensureStringEnsureNewlines(maybeString: string | string[] | undefined) {
   return typeof maybeString === 'string'
@@ -29,7 +29,7 @@ async function minifyStringOutput(
   if (text && text.length <= opts.maxCharacters) {
     return { ...(output as any), [fieldName]: text };
   }
-  const hash = computeHash(text);
+  const hash = opts.computeHash(text);
   outputCache[hash] = [text, { contentType: 'text/plain', encoding: 'utf8' }];
   return {
     ...(output as any),

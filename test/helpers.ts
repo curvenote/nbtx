@@ -1,4 +1,9 @@
+import { createHash } from 'crypto';
 import type { IDisplayData, IError, IExecuteResult, IStream } from '@jupyterlab/nbformat';
+
+export function computeHash(content: string) {
+  return createHash('md5').update(content).digest('hex');
+}
 
 export function makeNativeStreamOutput(text?: string | string[]) {
   return {

@@ -3,6 +3,7 @@ import type { IStream, IError, ExecutionCount, OutputMetadata } from '@jupyterla
 export interface MinifyOptions {
   maxCharacters: number;
   truncateTo: number;
+  computeHash: (content: string) => string;
 }
 
 export type MinifiedStreamOutput = { hash?: string; path?: string } & IStream;
