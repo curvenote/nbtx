@@ -24,6 +24,15 @@ async function minifyOneOutputItem(
   }
 }
 
+/**
+ * Given a list of nbformat IOutput objects, extract large outputs and cache their content on a separate data structure
+ *
+ * @param outputs: List of IOutput objects, including stream, error, execute_result, display_data, and update_display_data types.
+ * @param outputCache: MinifiedContentCache object for storing large output content
+ * @param opts:
+ *    maxCharacters - the maximum allowed length for output content to remain in outputs; larger contents will be moved to outputCache
+ *    truncateTo - where applicable, truncated text outputs will remain on the output when the full text is moved to outputCache
+ */
 export async function minifyCellOutput(
   outputs: IOutput[],
   outputCache: MinifiedContentCache,

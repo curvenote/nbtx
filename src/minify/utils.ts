@@ -18,6 +18,11 @@ export function ensureSafePath(path: string): string {
   return path.replace('/', '-');
 }
 
+/**
+ * Given a list of minified outputs, perform a function on each
+ *
+ * This function traverses into mime outputs which may have multiple outputs included together.
+ */
 export function walkOutputs(
   outputs: MinifiedOutput[],
   func: (obj: MinifiedStreamOutput | MinifiedErrorOutput | MinifiedMimePayload) => void,
