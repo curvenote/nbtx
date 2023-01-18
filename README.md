@@ -52,7 +52,7 @@ notebook.cells.forEach((cell) => {
 });
 ```
 
-You may then handle the `outputCache` however you want. For example, writing each large output to its own file and updating the cell outputs to point to those files:
+You may then handle the `outputCache` however you want. For example, writing each large output to its own file and updating the cell outputs to point to those files (in this example by adding the `path` field):
 
 ```typescript
 import { extFromMimeType, walkOutputs } from 'nbtx';
