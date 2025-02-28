@@ -10,7 +10,11 @@ function minifyContent(
   outputCache: MinifiedContentCache,
   opts: MinifyOptions,
 ) {
-  if (!isBase64Image && content && content.length <= opts.maxCharacters) {
+  console.log('minifyContent', content, contentType, isBase64Image, outputCache, opts);
+  if (content.length === 0) {
+    return { content, content_type: contentType };
+  }
+  if (!isBase64Image && content.length <= opts.maxCharacters) {
     return { content, content_type: contentType };
   }
   let hash: string;

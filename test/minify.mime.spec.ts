@@ -3,7 +3,7 @@ import type { MinifiedContentCache } from '../src/minify/types';
 import { computeHash, makeNativeMimeOutput } from './helpers';
 
 const default_opts = {
-  maxCharacters: 20,
+  maxCharacters: 200,
   truncateTo: 10,
   computeHash,
 };
@@ -74,6 +74,22 @@ describe('minify.mime', () => {
       ]);
     },
   );
+  test.only('minifyMimeOutput - no minify %s', async () => {
+    const output = makeNativeMimeOutput('execute_result', 'application/vnd.holoviews+json', '');
+    expect(Object.keys(output.data)).toEqual(['application/vnd.holoviews+json']);
+    const cache = {} as MinifiedContentCache;
+    const minified = await minifyMimeOutput(output, cache, default_opts);
+    expect(minified).toEqual({
+      data: {
+        'application/vnd.holoviews+json': {
+          content: '',
+          content_type: 'application/vnd.holoviews+json',
+        },
+      },
+      metadata: { meta: 'data' },
+      output_type: 'execute_result',
+    });
+  });
   test('minifyMimeOutput - multiple %s', () => {
     //pass
   });
