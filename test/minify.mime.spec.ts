@@ -3,7 +3,7 @@ import type { MinifiedContentCache } from '../src/minify/types';
 import { computeHash, makeNativeMimeOutput } from './helpers';
 
 const default_opts = {
-  maxCharacters: 200,
+  maxCharacters: 20,
   truncateTo: 10,
   computeHash,
 };
