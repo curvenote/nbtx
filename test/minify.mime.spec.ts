@@ -74,7 +74,7 @@ describe('minify.mime', () => {
       ]);
     },
   );
-  test.only('minifyMimeOutput - no minify %s', async () => {
+  test('minifyMimeOutput - no minify %s', async () => {
     const output = makeNativeMimeOutput('execute_result', 'application/vnd.holoviews+json', '');
     expect(Object.keys(output.data)).toEqual(['application/vnd.holoviews+json']);
     const cache = {} as MinifiedContentCache;
