@@ -1,5 +1,11 @@
 # nbtx
 
+## 0.3.0
+
+### Minor Changes
+
+- 61cb5bf: Some vendor mime-bundles resolve to a string, and should not be pushed to file no matter the maxCharacters setting.
+
 ## 0.2.3
 
 ### Patch Changes
