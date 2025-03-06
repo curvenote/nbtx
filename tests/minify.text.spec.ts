@@ -1,3 +1,4 @@
+import { describe, expect, test } from 'vitest';
 import { minifyStreamOutput, minifyErrorOutput } from '../src/minify/text';
 import type { MinifiedContentCache } from '../src/minify/types';
 import { computeHash, makeNativeErrorOutput, makeNativeStreamOutput } from './helpers';

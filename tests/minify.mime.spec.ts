@@ -1,3 +1,4 @@
+import { describe, expect, test } from 'vitest';
 import { minifyMimeOutput } from '../src/minify/mime';
 import type { MinifiedContentCache } from '../src/minify/types';
 import { computeHash, makeNativeMimeOutput } from './helpers';

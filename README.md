@@ -167,3 +167,16 @@ After `minifyCellOutput` is called and an optional pass to write to disk and add
 Viewing and "rehydration" applications can choose to `walkOutputs` and download the various parts of a notebook, and/or add additional `mimetypes` to the bundle. For example, adding transformations to take screenshots of outputs for long-term preservation or add web-optimized images (e.g. WebP) that were not created in the execution process.
 
 This can be done asyncronously from the first request of notebook content payload, improving pageload speed and leaving it up to the consuming application which of the mime-bundles to fetch.
+
+---
+
+As of v0.4.0 this package is [ESM only](https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c).
+
+---
+
+<p style="text-align: center; color: #aaa; padding-top: 50px">
+  Made with love by
+  <a href="https://continuous.foundation" target="_blank" style="color: #aaa">
+    Continuous Science Foundation <img src="https://continuous.foundation/images/logo-small.svg" style="height: 1em" />
+  </a>
+</p>

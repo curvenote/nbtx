@@ -1,7 +1,7 @@
 /* eslint-disable no-param-reassign */
 import type { IDisplayData, IExecuteResult, MultilineString } from '@jupyterlab/nbformat';
-import type { MinifiedContentCache, MinifiedMimeBundle, MinifyOptions } from './types';
-import { ensureString } from './utils';
+import type { MinifiedContentCache, MinifiedMimeBundle, MinifyOptions } from './types.js';
+import { ensureString } from './utils.js';
 
 function minifyContent(
   content: string,

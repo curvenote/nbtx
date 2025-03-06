@@ -4,7 +4,7 @@ import type {
   MinifiedMimePayload,
   MinifiedOutput,
   MinifiedStreamOutput,
-} from './types';
+} from './types.js';
 
 export const MAX_CHARS = 25000;
 export const TRUNCATED_CHARS_COUNT = 64;

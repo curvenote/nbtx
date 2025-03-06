@@ -1,4 +1,4 @@
-export { minifyCellOutput } from './minify';
-export { convertToIOutputs } from './convert';
-export * from './types';
-export * from './utils';
+export { minifyCellOutput } from './minify.js';
+export { convertToIOutputs } from './convert.js';
+export * from './types.js';
+export * from './utils.js';

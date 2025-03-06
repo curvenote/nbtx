@@ -1,8 +1,8 @@
 import type { IOutput, IStream, IError, IDisplayData, IExecuteResult } from '@jupyterlab/nbformat';
-import { minifyMimeOutput } from './mime';
-import { minifyErrorOutput, minifyStreamOutput } from './text';
-import type { MinifiedContentCache, MinifiedOutput, MinifyOptions } from './types';
-import { DEFAULT_HASH_WARNING, isNotNull, MAX_CHARS, TRUNCATED_CHARS_COUNT } from './utils';
+import { minifyMimeOutput } from './mime.js';
+import { minifyErrorOutput, minifyStreamOutput } from './text.js';
+import type { MinifiedContentCache, MinifiedOutput, MinifyOptions } from './types.js';
+import { DEFAULT_HASH_WARNING, isNotNull, MAX_CHARS, TRUNCATED_CHARS_COUNT } from './utils.js';
 
 async function minifyOneOutputItem(
   output: IOutput,
