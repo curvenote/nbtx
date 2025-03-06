@@ -1,6 +1,6 @@
 {
   "name": "nbtx",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Jupyter Notebook Translators: Transform Jupyter notebook JSON files (*.ipynb) to and from more compact data structures for use in web applications or other contexts where loading component parts (e.g. images, data, etc.) is preferred.",
   "author": "Steve Purves <steve@curvenote.com>",
   "license": "MIT",
