@@ -1,3 +1,4 @@
+import { describe, expect, test } from 'vitest';
 import { convertToIOutputs, minifyCellOutput } from '../src/minify';
 import { minifyMimeOutput } from '../src/minify/mime';
 import { minifyErrorOutput, minifyStreamOutput } from '../src/minify/text';

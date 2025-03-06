@@ -1,3 +1,4 @@
+import { describe, expect, test } from 'vitest';
 import { ensureSafePath } from '../src/minify/utils';
 
 describe('minify.utils', () => {

@@ -1,3 +1,4 @@
+import { describe, expect, test } from 'vitest';
 import { minifyCellOutput } from '../src/minify';
 import { makeNativeErrorOutput, makeNativeMimeOutput, makeNativeStreamOutput } from './helpers';
 

@@ -1,4 +1,4 @@
-import { KnownCellOutputMimeTypes } from './types';
+import { KnownCellOutputMimeTypes } from './types.js';
 
 export function extFromMimeType(mimeType: string) {
   if (mimeType === KnownCellOutputMimeTypes.TextHtml) return '.html';

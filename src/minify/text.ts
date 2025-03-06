@@ -5,8 +5,8 @@ import type {
   MinifiedErrorOutput,
   MinifiedStreamOutput,
   MinifyOptions,
-} from './types';
-import { ensureString } from './utils';
+} from './types.js';
+import { ensureString } from './utils.js';
 
 function ensureStringEnsureNewlines(maybeString: string | string[] | undefined) {
   return typeof maybeString === 'string'
