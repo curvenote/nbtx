@@ -21,10 +21,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/curvenote/nbtx.git"
+    "url": "git+https://github.com/continuous-foundation/nbtx.git"
   },
   "bugs": {
-    "url": "https://github.com/curvenote/nbtx/issues"
+    "url": "https://github.com/continuous-foundation/nbtx/issues"
   },
   "scripts": {
     "prepublishOnly": "npm test && npm run build",
